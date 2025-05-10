@@ -49,7 +49,7 @@ for _lider in dge['Nome do Lider'].unique():
 
 # Adicional filtros
 categorias = st.sidebar.multiselect(
-    "Selecione o líder:",
+    "Líder:",
     options=dge['Nome do Lider'].unique(),
     default=dge['Nome do Lider'].unique()
 )
@@ -78,7 +78,7 @@ df_filtrado.rename(columns={'Nome do Lider':'Líder',
 fig1 = go.Figure(data=[
     go.Scatter(
         name=_nome,
-         mode='lines+markers+text',
+        mode='lines+markers+text',
         x=df_filtrado[df_filtrado['Líder'] == _nome]['Data'],
         y=df_filtrado[df_filtrado['Líder'] == _nome]['Frequência'],
         text=df_filtrado[df_filtrado['Líder'] == _nome]['Frequência'],
