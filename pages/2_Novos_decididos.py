@@ -10,8 +10,6 @@ load_dotenv()
 
 st.title("Novos decididos")
 
-locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8') 
-
 df = pd.read_csv(os.environ["NDS"])   
 
 _colunas = ['Idade', 
@@ -36,10 +34,27 @@ _idade_ordem = {'30 - 40 anos':5,
                 '15 - 17 anos':2, 
                 '25 - 29 anos':4}
 
+meses = {
+    1: "Janeiro",
+    2: "Fevereiro",
+    3: "Março",
+    4: "Abril",
+    5: "Maio",
+    6: "Junho",
+    7: "Julho",
+    8: "Agosto",
+    9: "Setembro",
+    10: "Outubro",
+    11: "Novembro",
+    12: "Dezembro"
+}
+
+df = df[_colunas].copy()
 df = df[_colunas].copy()
 df.rename(columns=_coluna_rename, inplace = True)
 df['Data'] = pd.to_datetime(df['Data'])
-df['Mês'] = df['Data'].dt.strftime('%B').str.capitalize()
+df['Mês-Numério'] = df['Data'].dt.month
+df['Mês'] = df['Mês-Numério'].map(meses)
 df['Ano'] = df['Data'].dt.year.astype(str)
 df['Mês - Ano'] = df['Mês'] + '-' + df['Ano']
 df.dropna(inplace=True)
@@ -216,6 +231,8 @@ fig5.update_layout(template='plotly_dark',
                   title_x=0.5)
 
 fig5.update_traces(textposition='outside') 
+
+# df_filtrado.sort_values(by='Mês-Numério', inplace=True)
 
 fig6 = px.pie(df_filtrado, 
              names='Mês',
